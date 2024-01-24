@@ -222,7 +222,7 @@
           <div className="main__cards">
             <div className="card">
               <i
-                className="fa fa-user-o fa-2x text-lightblue"
+                className="fa fa-users fa-2x text-lightblue"
                 aria-hidden="true"
               ></i>
               <div className="card_inner">
@@ -232,7 +232,7 @@
             </div>
             <div className="card">
               <i
-                className="fa fa-user-o fa-2x text-lightblue"
+                className="fa fa-graduation-cap fa-2x text-lightblue"
                 aria-hidden="true"
               ></i>
               <div className="card_inner">
@@ -242,7 +242,7 @@
             </div>
             <div className="card">
               <i
-                className="fa fa-user-o fa-2x text-lightblue"
+                className="fa fa-user-secret fa-2x text-lightblue"
                 aria-hidden="true"
               ></i>
               <div className="card_inner">

@@ -22,51 +22,45 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
         <Link to="/admin-dashboard" style={{ textDecoration: "none" }}>
           <div className="sidebar__link active_menu_link">
             <i className="fa fa-home"></i>
-            <a href="#">Dashboard</a>
+            <a className="a-tag">Dashboard</a>
           </div>
         </Link>
 
-      
         <Link to="/admin-course" style={{ textDecoration: "none" }}>
           <div className="sidebar__link">
-            <i className="fa fa-list" aria-hidden="true"></i>
-            <a href="#">Course Management</a>
+            <i className="fa fa-book" aria-hidden="true"></i>
+
+            <a className="a-tag">Course Management</a>
           </div>
         </Link>
 
         <Link to="/admin-assessment" style={{ textDecoration: "none" }}>
           <div className="sidebar__link">
             <i className="fa fa-list" aria-hidden="true"></i>
-            <a href="#">Assessment Management</a>
+            <a className="a-tag">Assessment Management</a>
           </div>
         </Link>
 
         <Link to="/admin-report" style={{ textDecoration: "none" }}>
           <div className="sidebar__link">
             <i className="fa fa-tasks" aria-hidden="true"></i>
-            <a href="#">Progress Tracking</a>
+            <a className="a-tag">Progress Tracking</a>
           </div>
         </Link>
 
         <Link to="/admin-feedback" style={{ textDecoration: "none" }}>
           <div className="sidebar__link">
             <i className="fa fa-comments" aria-hidden="true"></i>
-            <a href="#">Feedback Management</a>
+            <a className="a-tag">Feedback Management</a>
           </div>
         </Link>
 
         <Link to="/reset-password" style={{ textDecoration: "none" }}>
           <div className="sidebar__link">
             <i className="fa fa-unlock-alt" aria-hidden="true"></i>
-            <a href="#">Change Password</a>
+            <a className="a-tag">Change Password</a>
           </div>
         </Link>
-
-        {/* <div className="sidebar__logout">
-          <i className="fa fa-power-off"></i>
-          <a href="#">Log out</a>
-        </div> */}
-
         <Link to="/admin-login">
           <div className="sidebar__link">
             {/* <button>Logout</button> */}

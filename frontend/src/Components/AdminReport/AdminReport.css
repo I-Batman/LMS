@@ -134,7 +134,12 @@ body {
   }
   
   /* table container css*/
-  
+  .report-table-container h3{
+
+    padding-bottom: 20px;
+
+  }
+
   .report-table-container table {
     /* width: 100%; */
     border-collapse: collapse;
