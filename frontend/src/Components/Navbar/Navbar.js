@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 import avatar from "../../assets/avatar.svg";
 
 const Navbar = ({ sidebarOpen, openSidebar }) => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [showDateTime, setShowDateTime] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -29,6 +31,9 @@ const Navbar = ({ sidebarOpen, openSidebar }) => {
       </div>
       <div className="navbar__right">
         <div className="datetime-container">
+          
+          {showCalendar && <div className="calendar-popup"></div>}
+
           <a onClick={() => setShowDateTime(!showDateTime)}>
             <i className="fa fa-clock-o" aria-hidden="true"></i>
           </a>
@@ -42,7 +47,9 @@ const Navbar = ({ sidebarOpen, openSidebar }) => {
           </a>
           {showLogoutPopup && (
             <div className="popup">
-              <button className="logout-btn">Logout</button>
+              <Link to="/admin-login">
+                <button className="logout-btn">Logout</button>
+              </Link>
             </div>
           )}
         </div>
