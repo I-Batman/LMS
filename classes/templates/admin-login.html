@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap');
+
+*{
+
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins',sans-serif;
+}
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    background: #0c2e9c;
+    display: flex;
+    justify-content:space-between ;
+    align-items: center;
+    z-index: 99;
+}
+
+.logo {
+    max-width: 50px; /* Adjust the maximum width as needed */
+    margin-right: auto; /* Push the logo to the left by setting right margin to auto */
+    text-align: left; /* Align the link and image to the left within the .logo container */
+}
+
+.logo img {
+    width: 100%; /* Make sure the image takes up 100% of the width within the .logo container */
+    height: auto; /* Maintain the aspect ratio of the image */
+    display: block; /* Remove any extra space beneath the image */
+    border-radius: 5px;
+}
+
+
+
+.navigation a{
+    position: relative;
+    font-size: 1.1em;
+    color:#fff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+
+.navigation a::after{
+    content: '';
+    position: absolute;
+    left:0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 5px;
+    transform: scaleX(0);
+    transition: transform .5s;
+
+}
+
+.navigation a:hover::after{
+    /* transform-origin: left; */
+    transform: scaleX(1);   
+
+
+}
+
+.navigation .btnLogin-popup{
+
+    width: 130px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid #fff;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #fff;
+    font-weight: 500;
+    margin-left : 40px;
+    transition: .5s;
+    
+}
+
+.navigation .btnLogin-popup:hover{
+
+    background: #fff;
+    color: #162938;
+}
+
+body{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('https://innovationmartlesham.com/wp-content/uploads/2021/10/THIS_logo_1920x1080.png') no-repeat;
+    background-size: cover;
+    background-position: center;    
+
+}
+
+.wrapper{
+    position: relative;
+    width: 400px;
+    height: 400px;
+    background: white;
+    border: 2px solid rgba(225,225,225,.5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0,0,0,.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transform: scale(0);
+    transition: transform .5s ease, height .2s ease;
+}
+
+.wrapper.active-popup{
+    transform: scale(1);
+}
+
+
+.wrapper .form-box{
+
+    width: 100%;
+    padding: 40px;
+
+}
+
+.wrapper .form-box.login{
+    /* display: none; */
+    transition: transform .18s ease;
+    transform: translateX(0);
+}
+
+.wrapper.active .form-box.login{
+    transition: none;
+    transform: translateX(-400px);
+}
+
+
+
+.wrapper .form-box.forget{
+    position: absolute;
+    transition: none;
+    transform: translateX(400px);
+}
+
+
+.wrapper.active .form-box.forget{
+
+    transition: transform .18s ease;
+    transform: translateX(0);
+}
+.wrapper .icon-close{
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    background: #162938;
+    font-size: 2em;
+    color:#fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+    
+}
+
+.form-box h2{
+    font-size: 2em;
+    color: #162938;
+    text-align: center;
+}
+
+.form-box.forget h2{
+    position: fixed; 
+    justify-content: center;
+    top:0px;
+    left: 80px;
+    font-size: 2em;
+    color: #162938;
+    text-align: center;
+}
+
+.forget-link{
+    font-weight: bolder;
+}
+
+.form-box.forget p{
+    top:10px;
+    position: relative;
+    text-align: center;
+    justify-content: center;
+}
+
+.cancel{
+    text-align: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    position:relative;
+    top: 35px;
+    
+}
+
+
+
+.input-box{
+
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid #162938;
+    
+    margin: 30px 0;
+
+}
+
+.input-box label{
+
+    position: absolute;
+    top: 50%;
+    left:5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: #162938;
+    font-weight: 500;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label{
+
+    top: -5px;
+}
+
+
+.input-box input{
+
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 1em;
+        color: #162938;
+        font-weight: 600;
+        padding: 0 35px 0 5px;
+}
+
+
+.input-box .icon{
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #162938;
+    line-height: 57px;
+
+}
+
+.forget{
+    font-size: .9em;
+    color: #162938;
+    font-weight: 500;
+    margin: -15px 0 15px;
+    display: flex;
+}
+
+.forget label input{
+
+    accent-color: #162938;
+    margin-right: 3px;
+}
+
+.forget a{
+    color: #162938;
+    text-decoration: none;
+}
+
+.forget a:hover {
+    text-decoration: underline;
+    transition: .5s;
+}
+
+.btn{
+    width: 100%;
+    height:45px;
+    border: none;
+    background-color: #162938;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color:#fff;
+    font-weight: 500;    
+}
+
+
+.btn1-link{
+    width: 100%;
+    top:10px;
+    height:45px;
+    border: none;
+    background-color: #162938;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color:#fff;
+    font-weight: 500;    
+}
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="https://www.torryharris.com/" target="_blank"> 
+                <img src="https://yt3.googleusercontent.com/bVXHbNtsBv0vfXCqvpitziCa2VAZncauoojvyMswvAQyas-yWcLhqyNEq1Dy7FqHfLn6zkoDJko=s900-c-k-c0x00ffffff-no-rj" alt="">
+            </a>
+        </div>
+        <nav class="navigation">
+            <a href="https://www.torryharris.com/" target=”_blank” >Home</a>
+            <a href="https://www.torryharris.com/services" target=”_blank” >Services</a>
+            <a href="https://www.torryharris.com/career" target=”_blank” >Career</a>
+            <a href="https://www.torryharris.com/about-us/contact-us" target=”_blank”   >Contact Us</a>
+            <button class="btnLogin-popup">Login</button>
+        </nav>
+    </header>
+
+
+
+
+    <div class="wrapper">
+
+        <span class="icon-close"><ion-icon name="close"></ion-icon></span>
+    <!-- Login Box -->
+    <div class="form-box login">
+    <h2>Admin Login</h2>
+
+    <form action="" method="post">
+        <div class="input-box">
+            <span class="icon"><ion-icon name="mail"></ion-icon></span>
+            <input type="email" name="email" required>
+            <label>Email</label>
+        </div>
+        <div class="input-box">
+            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+            <input type="password" name="password" required>
+            <label>Password</label>
+        </div>
+        <!-- <div class="forget">
+            <a href="#" class="forget-link">Forgot Password?</a>
+        </div> -->
+        <button type="submit" class="btn">Login</button>
+
+        <div class="login">
+            <p><a href="#"></a></p>
+        </div>
+        <p th:if="${error}" class="error-message">Wrong Email or Password.</p>
+    </form>
+</div>
+
+
+   
+
+    </div>
+
+    <script>
+    const wrapper = document.querySelector('.wrapper');
+const btnPopup = document.querySelector('.btnLogin-popup');
+const iconClose = document.querySelector('.icon-close');
+
+// Clear error message when the login form is displayed
+
+// Always keep the wrapper active
+wrapper.classList.add('active-popup');
+
+btnPopup.addEventListener('click', () => {
+    // You can add any specific logic related to the login button click here if needed
+    wrapper.classList.add('active-popup');
+});
+
+iconClose.addEventListener('click', () => {
+    // Close the wrapper when the close icon is clicked
+    wrapper.classList.remove('active-popup');
+});
+
+
+</script>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    	
+
+</body>
+
+</html>
