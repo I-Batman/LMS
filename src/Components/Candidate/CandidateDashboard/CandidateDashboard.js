@@ -343,7 +343,8 @@ const CandidateDashboard = () => {
                 </div>
               </div>
             </div>
-            {tagNames.size > 0 &&             <div className="progress-bar">
+            {tagNames.size > 0 &&             
+            <div className="progress-bar">
               <h1>Analysis</h1>
               <div className="analysis-result">
                 {Array.from(tagPercentages).map(([tagId, percentage]) => (

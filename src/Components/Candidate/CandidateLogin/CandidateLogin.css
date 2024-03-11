@@ -1,4 +1,4 @@
-.login-box, .forgot-box, .signup-box {
+.candidate-login-box, .forgot-box, .signup-box {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -25,7 +25,7 @@
     text-align: center;
   }
   
-  .login-box p:first-child, .forgot-box p:first-child, .signup-box p:first-child {
+  .candidate-login-box p:first-child, .forgot-box p:first-child, .signup-box p:first-child {
     margin: 0 0 30px;
     padding: 0;
     color: #fff;
@@ -35,15 +35,15 @@
     letter-spacing: 1px;
   }
 
-  .forgot-box p,  .login-box p, .signup-box p{
+  .forgot-box p,  .candidate-login-box p, .signup-box p{
     padding:10px;
   }
   
-  .login-box .user-box, .forgot-box .user-box, .signup-box .user-box {
+  .candidate-login-box .user-box, .forgot-box .user-box, .signup-box .user-box {
     position: relative;
   }
   
-  .login-box .user-box input, .forgot-box .user-box input, .signup-box .user-box input {
+  .candidate-login-box .user-box input, .forgot-box .user-box input, .signup-box .user-box input {
     width: 100%;
     padding: 10px 0;
     font-size: 16px;
@@ -55,7 +55,7 @@
     background: transparent;
   }
   
-  .login-box .user-box label, .forgot-box .user-box label, .signup-box .user-box label {
+  .candidate-login-box .user-box label, .forgot-box .user-box label, .signup-box .user-box label {
     position: absolute;
     top: 0;
     left: 0;
@@ -66,8 +66,8 @@
     transition: .5s;
   }
   
-  .login-box .user-box input:focus ~ label,
-  .login-box .user-box input:valid ~ label,
+  .candidate-login-box .user-box input:focus ~ label,
+  .candidate-login-box .user-box input:valid ~ label,
   .forgot-box .user-box input:focus ~ label,
   .forgot-box .user-box input:valid ~ label,
   .signup-box .user-box input:focus ~ label,
@@ -78,7 +78,7 @@
     font-size: 12px;
   }
   
-  .login-box form a, .forgot-box form a, .signup-box form a {
+  .candidate-login-box form a, .forgot-box form a, .signup-box form a {
     position: relative;
     display: inline-block;
     padding: 10px 20px;
@@ -93,18 +93,18 @@
     letter-spacing: 3px;
   }
   
-  .login-box a:hover, .forgot-box a:hover, .signup-box a:hover {
+  .candidate-login-box a:hover, .forgot-box a:hover, .signup-box a:hover {
     background: #fff;
     color: #272727;
     border-radius: 5px;
   }
   
-  .login-box a span, .forgot-box a span, .signup-box a span {
+  .candidate-login-box a span, .forgot-box a span, .signup-box a span {
     position: absolute;
     display: block;
   }
   
-  .login-box a span:nth-child(1), .forgot-box a span:nth-child(1), .signup-box a span:nth-child(1) {
+  .candidate-login-box a span:nth-child(1), .forgot-box a span:nth-child(1), .signup-box a span:nth-child(1) {
     top: 0;
     left: -100%;
     width: 100%;
@@ -123,7 +123,7 @@
     }
   }
   
-  .login-box a span:nth-child(2), .forgot-box a span:nth-child(2), .signup-box a span:nth-child(2) {
+  .candidate-login-box a span:nth-child(2), .forgot-box a span:nth-child(2), .signup-box a span:nth-child(2) {
     top: -100%;
     right: 0;
     width: 2px;
@@ -143,7 +143,7 @@
     }
   }
   
-  .login-box a span:nth-child(3), .forgot-box a span:nth-child(3), .signup-box a span:nth-child(3) {
+  .candidate-login-box a span:nth-child(3), .forgot-box a span:nth-child(3), .signup-box a span:nth-child(3) {
     bottom: 0;
     right: -100%;
     width: 100%;
@@ -163,7 +163,7 @@
     }
   }
   
-  .login-box a span:nth-child(4), .forgot-box a span:nth-child(4), .signup-box a span:nth-child(4) {
+  .candidate-login-box a span:nth-child(4), .forgot-box a span:nth-child(4), .signup-box a span:nth-child(4) {
     bottom: -100%;
     left: 0;
     width: 2px;
@@ -183,26 +183,26 @@
     }
   }
   
-  .login-box p:last-child, .forgot-box p:last-child, .signup-box p:last-child {
+  .candidate-login-box p:last-child, .forgot-box p:last-child, .signup-box p:last-child {
     color: #aaa;
     font-size: 14px;
   }
   
-  .login-box a.a2, .forgot-box a.a2, .signup-box a.a2 {
+  .candidate-login-box a.a2, .forgot-box a.a2, .signup-box a.a2 {
     color: #fff;
     text-decoration: none;
   }
   
-  .login-box a.a2:hover, .forgot-box a.a2:hover, .signup-box a.a2:hover {
+  .candidate-login-box a.a2:hover, .forgot-box a.a2:hover, .signup-box a.a2:hover {
     background: transparent;
     color: #aaa;
     border-radius: 5px;
   }
   
   /* Add this style to center-align the links and buttons */
-  .login-box p:last-child,
-  .login-box form a,
-  .login-box a.a2,
+  .candidate-login-box p:last-child,
+  .candidate-login-box form a,
+  .candidate-login-box a.a2,
   .forgot-box p:last-child,
   .forgot-box form a,
   .forgot-box a.a2,

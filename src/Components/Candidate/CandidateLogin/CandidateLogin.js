@@ -141,7 +141,7 @@ function CandidateLogin() {
   return (
     <div className="">
       {showLoginBox ? (
-        <div className="login-box">
+        <div className="candidate-login-box">
           <p>Candidate Login</p>
           <form onSubmit={handleLoginSubmit}>
             <div className="user-box">

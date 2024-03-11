@@ -85,7 +85,6 @@ body {
   grid-area: main;
   overflow-y: auto;
   display: flex;
-
   width: 100%; /* Take full width */
 }
 

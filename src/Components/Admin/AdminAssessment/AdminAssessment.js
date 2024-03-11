@@ -82,39 +82,39 @@ const AdminAssessment = () => {
     time: "",
   });
   const handleDeleteQuestionClick = async (question) => {
-    try {
-      await axios.delete(
-        `${API_BASE_URL}/assessment-question/${question.questionId}`
-      );
-
-      // Update the state to remove the deleted question
-      setQuestions((prevQuestions) =>
-        prevQuestions.filter((q) => q.questionId !== question.questionId)
-      );
-
-      console.log(
-        "Question with id" + question.questionId + " deleted successfully"
-      );
-    } catch (error) {
-      alert("This question is already mapped");
-      console.error("Error deleting question:", error);
+    const confirmed = window.confirm("Are you sure you want to delete this question?");
+    if (confirmed) {
+      try {
+        await axios.delete(`${API_BASE_URL}/assessment-question/${question.questionId}`);
+        setQuestions((prevQuestions) =>
+          prevQuestions.filter((q) => q.questionId !== question.questionId)
+        );
+        console.log(
+          "Question with id " + question.questionId + " deleted successfully"
+        );
+      } catch (error) {
+        alert("This question is already mapped");
+        console.error("Error deleting question:", error);
+      }
     }
   };
-
+  
   const handleDeleteAssessmentClick = async (assessment) => {
-    try {
-      await axios.delete(
-        `${API_BASE_URL}/assessment/${assessment.assessmentid}`
-      );
-      loadAssessments();
-      setSelectedAssessment(null);
-      setShowQuestionsForm(false);
-      setShowQuestionsView(false);
-    } catch (error) {
-      alert("The assessment is already mapped");
-      console.error("Error deleting assessment:", error);
+    const confirmed = window.confirm("Are you sure you want to delete this assessment?");
+    if (confirmed) {
+      try {
+        await axios.delete(`${API_BASE_URL}/assessment/${assessment.assessmentid}`);
+        loadAssessments();
+        setSelectedAssessment(null);
+        setShowQuestionsForm(false);
+        setShowQuestionsView(false);
+      } catch (error) {
+        alert("The assessment is already mapped");
+        console.error("Error deleting assessment:", error);
+      }
     }
   };
+  
 
   const [showQuestionsForm, setShowQuestionsForm] = useState(false);
   const [showQuestionsView, setShowQuestionsView] = useState(false);
@@ -239,19 +239,22 @@ const AdminAssessment = () => {
   };
 
   const handleDeleteTag = async (tagId) => {
-    try {
-      await axios.delete(`${API_BASE_URL}/tag/${tagId}`);
-      // Use .then to load tags after successful deletion
-      axios.get(`${API_BASE_URL}/tag`).then((response) => {
-        setTags(response.data); // Update the tags state
-      });
-    } catch (error) {
-      alert("This tag is already mapped");
-      console.error("Error deleting tag:", error);
+    const confirmed = window.confirm("Are you sure you want to delete this tag?");
+    if (confirmed) {
+      try {
+        await axios.delete(`${API_BASE_URL}/tag/${tagId}`);
+        axios.get(`${API_BASE_URL}/tag`).then((response) => {
+          setTags(response.data); // Update the tags state
+        });
+        loadAssessments();
+        loadTags();
+      } catch (error) {
+        alert("This tag is already mapped");
+        console.error("Error deleting tag:", error);
+      }
     }
-    loadAssessments();
-    loadTags();
   };
+  
 
   const [newQuestion, setNewQuestion] = useState({
     assessment: { assessmentid: "" },
@@ -319,6 +322,7 @@ const AdminAssessment = () => {
       loadTags();
     }
   };
+  
 
   const [questions, setQuestions] = useState([]);
 

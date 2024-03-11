@@ -87,27 +87,31 @@ const AdminCourse = () => {
   };
 
   const handleDeleteContentClick = async (content) => {
-    try {
-      // Send a request to delete the content based on its ID
-      await axios.delete(`${API_BASE_URL}/coursecontent/${content.contentid}`);
-
-      // Refresh the content list
-      await handleViewContentClick(selectedCourse);
-    } catch (error) {
-      console.error("Error deleting content:", error);
+    const confirmed = window.confirm("Are you sure you want to delete this content?");
+    if (confirmed) {
+      try {
+        await axios.delete(`${API_BASE_URL}/coursecontent/${content.contentid}`);
+        await handleViewContentClick(selectedCourse);
+      } catch (error) {
+        console.error("Error deleting content:", error);
+      }
     }
   };
+  
 
   const handleDeleteCourseClick = async (course) => {
-    try {
-      await axios.delete(`${API_BASE_URL}/course/${course.courseid}`);
-      loadCourses();
-      setSelectedCourse(null);
-      setShowContentForm(false);
-      setShowContentView(false);
-    } catch (error) {
-      alert("The selected course is already mapped");
-      console.error("Error deleting course:", error);
+    const confirmed = window.confirm("Are you sure you want to delete this course?");
+    if (confirmed) {
+      try {
+        await axios.delete(`${API_BASE_URL}/course/${course.courseid}`);
+        loadCourses();
+        setSelectedCourse(null);
+        setShowContentForm(false);
+        setShowContentView(false);
+      } catch (error) {
+        alert("The selected course is already mapped");
+        console.error("Error deleting course:", error);
+      }
     }
   };
 
