@@ -16,6 +16,7 @@ import CandidateCourse from "./Components/Candidate/CandidateCourse/CandidateCou
 import CandidateFeedback from "./Components/Candidate/CandidateFeedback/CandidateFeedback";
 import CandidateResetPassword from "./Components/Candidate/CandidateResetPassword/CandidateResetPassword";
 import CandidateAssessment from "./Components/Candidate/CandidateAsessment/CandidateAssessment";
+// import UserManagement from "./Components/Admin/AdminUserManagement/AdminUserManagement";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/" element={<SelectUser />} />
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            {/* <Route path="/admin-user-management" element={<UserManagement />}/> */}
             <Route path="/admin-course" element={<AdminCourse />} />
             <Route path="/admin-assessment" element={<AdminAssessment />} />
             <Route path="/admin-report" element={<AdminReport />} />

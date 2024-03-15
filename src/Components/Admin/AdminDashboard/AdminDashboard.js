@@ -37,17 +37,30 @@ const Dashboard = () => {
   const filteredAdmins = filteredUsers.filter(
     (user) => user.usertype === "admin"
   );
-  const [deleteuser, DeleteUser] = useState({ userid: "" });
-  const { deleteuserid } = deleteuser;
-  const onDeleteInputChange = (e) => {
-    DeleteUser({ ...deleteuser, [e.target.name]: e.target.value });
+  
+  
+  const validatePasswordConstraints = (password) => {
+
+  if (password.length < 8) {
+    return "Password must be at least 8 characters long.";
+    }
+  
+  const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
+  const hasSpecialChars = specialChars.test(password);
+  const numbers = /\d/;
+  const hasNumbers = numbers.test(password);
+  const uppercaseLetter = /[A-Z]/;
+  const hasUppercaseLetter = uppercaseLetter.test(password);
+  if (!hasSpecialChars || !hasNumbers || !hasUppercaseLetter) {
+    return "Password must contain one Uppercase,Number and Special Character";
+  }
+  
+  return ""; // No error if constraints are met
   };
+  
+  //delete user table function
 
-  const [successDeleteMessage, setSuccessDeleteMessage] = useState("");
-  const [errorDeleteMessage, setErrorDeleteMessage] = useState("");
-
-  const onSubmitDelete = async (e) => {
-    e.preventDefault();
+  const onDeleteUser = async (userId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
     if (!confirmDelete) {
       return; // Do nothing if the user cancels
@@ -55,52 +68,66 @@ const Dashboard = () => {
     try {
       const response = await axios.post(
         `${API_BASE_URL}/admin/delete-user`,
-        deleteuser
+        { userid: userId }
       );
 
-      console.log("Response from server:", response);
-
       if (response.status === 200) {
-        setSuccessDeleteMessage(response.data);
-        setErrorDeleteMessage(""); // Clear any previous error message
+        alert("User is deleted Successfully")
         DeleteUser(prevState => ({ ...prevState, userid: "" }));
         loadUsers();
-      } else if (response.status === 404) {
-        setErrorDeleteMessage(response.data);
-        setSuccessDeleteMessage(""); // Clear any previous success message
+      } else if (response.status === 404) { 
+        alert(response.data);
       } else {
-        setErrorDeleteMessage(
-          response.data ||
-            "An unexpected error occurred. Please try again later."
-        );
+        alert("User is already mapped with data");
         setSuccessDeleteMessage(""); // Clear any previous success message
       }
-      setTimeout(() => {
-        setSuccessDeleteMessage("");
-        setErrorDeleteMessage("");
-        loadUsers();
-      }, 3000);
     } catch (axiosError) {
       console.error("Error from axios:", axiosError);
 
       if (axiosError.response && axiosError.response.status === 400) {
         setErrorDeleteMessage(axiosError.response.data);
       } else if (axiosError.response && axiosError.response.status === 404) {
-        setErrorDeleteMessage(axiosError.response.data);
+        alert(axiosError.response.data);
       } else {
-        setErrorDeleteMessage(
-          "An error occurred while deleting the user. Please check your internet connection and try again."
-        );
+        alert("User is already mapped with data");
       }
-      setSuccessDeleteMessage(""); // Clear any previous success message
-      setTimeout(() => {
-        setSuccessDeleteMessage("");
-        setErrorDeleteMessage("");
-        loadUsers();
-      }, 3000);
     }
   };
+  
+  const [deleteuser, DeleteUser] = useState({ userid: "" });
+  const [successDeleteMessage, setSuccessDeleteMessage] = useState("");
+  const [errorDeleteMessage, setErrorDeleteMessage] = useState("");
   //delete-user form backend functions
+  
+  //toggle access module
+  const handleToggleAccess = async (user) => {
+    const action = user.enabled ? 'disable' : 'enable'; // Toggle the action based on the current user status
+    const confirmAction = window.confirm(`Are you sure you want to ${action} this user?`);
+    if (!confirmAction) {
+      return; // Do nothing if the user cancels
+    }
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/admin/${action}-user`,
+        { userid: user.userid }
+      );
+  
+      if (response.status === 200) {
+        alert(`User access ${action === 'enable' ? 'enabled' : 'disabled'} successfully.`);
+        loadUsers(); // Reload the user data
+      } else if (response.status === 404) {
+        alert(response.data);
+      } else {
+        alert(`Failed to ${action} user access.`);
+      }
+    } catch (error) {
+      console.error(`Error ${action}-user:`, error);
+      alert(`Error ${action}-user. Please try again later.`);
+    }
+  };
+
+  //edit user button table 
+
   const [accessUser, setAccessUser] = useState({ userid: "" });
   const { userid: accessUserId } = accessUser;
 
@@ -164,13 +191,26 @@ const Dashboard = () => {
     }
   };
 
+  const [editUserFormVisible, setEditUserFormVisible]= useState(false);
+  const toggleEditUserFormVisibility=() =>{
+    setEditUserFormVisible(!editUserFormVisible);
+  }
   const [edituser, setEditUser] = useState({
     userid: "",
     emailid: "",
     username: "",
     usertype: "",
   });
-
+  const handleEditUser = (user) => {
+    setEditUser({
+      userid: user.userid,
+      emailid: user.emailid,
+      username: user.username,
+      usertype: user.usertype,
+    });
+    toggleEditUserFormVisibility();
+  };
+  
   const { edituserid, editemailid, editpassword, editusername, editusertype } =
     edituser;
 
@@ -249,7 +289,7 @@ const Dashboard = () => {
     }
   };
   //add-user form backend functions
-
+  const [addUserFormVisible, setAddUserFormVisible]= useState(false);
   const [adduser, AddUser] = useState({
     userid: "",
     emailid: "",
@@ -257,14 +297,14 @@ const Dashboard = () => {
     username: "",
     usertype: "",
   });
-
+  const toggleAddUserFormVisibility=() =>{
+    setAddUserFormVisible(!addUserFormVisible);
+  }
   const { userid, emailid, password, username, usertype } = adduser;
 
   const onInputChange = (e) => {
     const value = e.target.value;
     let errorMessage = "";
-  
-  
     if (e.target.name === "password") {
       if (value.length < 8) {
         errorMessage = "Password must be at least 8 characters long.";
@@ -281,8 +321,6 @@ const Dashboard = () => {
           "Password must contain one Uppercase,Number and Special Character";
       }
     }
-
-  
     AddUser({
       ...adduser,
       [e.target.name]: value,
@@ -290,26 +328,6 @@ const Dashboard = () => {
   
     setErrorMessage(errorMessage);
   };
-  
-  const validatePasswordConstraints = (password) => {
-
-    if (password.length < 8) {
-      return "Password must be at least 8 characters long.";
-    }
-  
-    const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
-    const hasSpecialChars = specialChars.test(password);
-    const numbers = /\d/;
-    const hasNumbers = numbers.test(password);
-    const uppercaseLetter = /[A-Z]/;
-    const hasUppercaseLetter = uppercaseLetter.test(password);
-    if (!hasSpecialChars || !hasNumbers || !hasUppercaseLetter) {
-      return "Password must contain one Uppercase,Number and Special Character";
-    }
-  
-    return ""; // No error if constraints are met
-  };
-
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -448,10 +466,84 @@ const Dashboard = () => {
 
           <div className="dashboard-content">
             <div className="form-container">
-              {/* Form 1 */}
 
-              <div>
-                <div className="admin-form add-user-form">
+            </div>
+
+            <div className="search-bar">
+              {/* Search Bar Component */}
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <a>
+                <i className="fa fa-search" aria-hidden="true"></i>
+              </a>
+            </div>
+
+            <div className=" admin-table-container">
+              <h3>User Details</h3>
+              <button className="add-user-button" onClick={toggleAddUserFormVisibility}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              Add User</button>
+              <table>
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Email ID</th>
+                    {/* <th>Password</th> */}
+                    <th>Username</th>
+                    <th>User Type</th>
+                    <th>Access</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredUsers.map((user, index) => (
+                    <tr key={index}>
+                      <td>{user.userid}</td>
+                      <td>{user.emailid}</td>
+                      {/* <td>{user.password}</td> */}
+                      <td>{user.username}</td>
+                      <td>{user.usertype}</td>
+                      <td>
+                        <div className="access-toggle-switch">
+                          <input
+                            className="access-toggle-input"
+                            id={`access-toggle-${user.userid}`}
+                            type="checkbox"
+                            checked={user.enabled}
+                            onChange={() => handleToggleAccess(user)}
+                          />
+                          <label
+                            className="access-toggle-label"
+                            htmlFor={`access-toggle-${user.userid}`}
+                            ></label>
+                          {/* <p>
+                          {user.enabled ? "Enable" : "Disable"}
+                          </p> */}
+                        </div>               
+                      </td>
+                      <td>
+                        <div>
+                          <button className="edit-user-button" onClick={() => handleEditUser(user)}>Edit</button>
+                        </div>
+                        <div>                        
+                          <button className="delete-user-button" onClick={()=> onDeleteUser(user.userid)}>Delete</button>
+                        </div>
+                      </td>              
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {addUserFormVisible &&
+            (
+              <div className="overlay" onclick={toggleAddUserFormVisibility}>
+                  <div className="admin-form add-user-form" onClick={(e) => e.stopPropagation()}>
                   <h3>Add User</h3>
                   <form onSubmit={(e) => onSubmit(e)} id="addUserForm">
                     <label htmlFor="addUserId">User ID:</label>
@@ -506,6 +598,13 @@ const Dashboard = () => {
                     <button id="adduser-button" type="submit">
                       Add User
                     </button>
+                    <button id="cancel-button" type="button" onClick={toggleAddUserFormVisibility}>
+                    <svg height="20px" viewBox="0 0 384 512">
+                      <path
+                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+                      ></path>
+                    </svg>
+                    </button>
                     {/* Only render success message if it's present */}
                     {successMessage && (
                       <p id="success-added-message" style={{ color: "green" }}>
@@ -522,10 +621,13 @@ const Dashboard = () => {
                   </form>
                 </div>
               </div>
-
-              {/* Form 2 */}
-              <div>
-                <div className="admin-form edit-user-form">
+            )
+            }
+            {
+              editUserFormVisible &&
+              (
+                <div className="overlay" onClick={toggleEditUserFormVisibility}>
+                <div className="admin-form edit-user-form" onClick={(e)=> e.stopPropagation()} >
                   <h3>Edit User</h3>
                   <form onSubmit={(e) => onSubmitEdit(e)} id="editUserForm">
                     <label htmlFor="editUserId">User ID:</label>
@@ -580,6 +682,13 @@ const Dashboard = () => {
                     <button id="edituser-button" type="submit">
                       Edit User
                     </button>
+                    <button id="cancel" type="button" onClick={toggleEditUserFormVisibility}>
+                    <svg height="20px" viewBox="0 0 384 512">
+                      <path
+                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+                      ></path>
+                    </svg>
+                    </button>
                     {successEditMessage && (
                       <p id="success-edited-message" style={{ color: "green" }}>
                         {successEditMessage}
@@ -594,140 +703,9 @@ const Dashboard = () => {
                     )}
                   </form>
                 </div>
-              </div>
-
-
-            <div className="d-forms">             
-              <div>
-                <div className="admin-form delete-user-form">
-                  <h3>Delete User</h3>
-                  <form
-                    onSubmit={(e) => onSubmitDelete(e)}
-                    className="delete-user"
-                  >
-                    <label htmlFor="deleteUserId">User ID:</label>
-                    <input
-                      type="text"
-                      id="deleteUserId"
-                      name="userid"
-                      value={deleteuser.userid}
-                      onChange={(e) => onDeleteInputChange(e)}
-                    />
-
-                    {/* Submit button */}
-                    <button id="deleteuser-button" type="submit">
-                      Delete User
-                    </button>
-
-                    {successDeleteMessage && (
-                      <p
-                        id="success-deleted-message"
-                        style={{ color: "green" }}
-                      >
-                        {successDeleteMessage}
-                      </p>
-                    )}
-
-                    {/* Only render error message if it's present */}
-                    {errorDeleteMessage && (
-                      <p id="error-deleted-message" style={{ color: "red" }}>
-                        {errorDeleteMessage}
-                      </p>
-                    )}
-                  </form>
                 </div>
-              </div>
-
-              <div>
-                <div className="admin-form access-user-form">
-                  <h3>Access</h3>
-                  <form onSubmit={(e) => e.preventDefault()}>
-                <label htmlFor="accessUserId">User ID:</label>
-                <input
-                  type="text"
-                  id="accessUserId"
-                  name="userid"
-                  value={accessUserId}
-                  onChange={(e) => onAccessInputChange(e)}
-                />
-
-                {/* Submit buttons */}
-                {/* <div className="a-buttons"> */}
-                <button
-                  id="enableuser-button"
-                  type="button"
-                  onClick={(e) => onSubmitAccess(e, "enable")}
-                >
-                  Enable
-                </button>
-                <button
-                  id="disableuser-button"
-                  type="button"
-                  onClick={(e) => onSubmitAccess(e, "disable")}
-                >
-                  Disable
-                </button>
-                
-        
-                {/* Only render success message if it's present */}
-                {successAccessMessage && (
-                  <p id="success-access-message" style={{ color: "green" }}>
-                    {successAccessMessage}
-                  </p>
-                )}
-
-                {/* Only render error message if it's present */}
-                {errorAccessMessage && (
-                  <p id="error-access-message" style={{ color: "red" }}>
-                    {errorAccessMessage}
-                  </p>
-                )}
-              </form>
-              </div>
-              </div>
-            </div>
-            </div>
-
-            <div className="search-bar">
-              {/* Search Bar Component */}
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <a>
-                <i className="fa fa-search" aria-hidden="true"></i>
-              </a>
-            </div>
-
-            <div className=" admin-table-container">
-              <h3>User Details</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>User ID</th>
-                    <th>Email ID</th>
-                    {/* <th>Password</th> */}
-                    <th>Username</th>
-                    <th>User Type</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredUsers.map((user, index) => (
-                    <tr key={index}>
-                      <td>{user.userid}</td>
-                      <td>{user.emailid}</td>
-                      {/* <td>{user.password}</td> */}
-                      <td>{user.username}</td>
-                      <td>{user.usertype}</td>
-                      <td>{user.enabled ? "Enable" : "Disable"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+              )
+            }
           </div>
         </div>
       </div>

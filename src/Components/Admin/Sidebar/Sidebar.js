@@ -25,11 +25,17 @@ const Sidebar = ({ sidebarOpen, closeSidebar }) => {
             <a className="a-tag">Dashboard</a>
           </div>
         </Link>
-
+        
+        {/* <Link to="/admin-user-management" style={{ textDecoration: "none" }}>
+          <div className="sidebar__link active_menu_link">
+            <i className="fa fa-users fa-2x "></i>
+            <a className="a-tag">User Management</a>
+          </div>
+        </Link> */}
+        
         <Link to="/admin-course" style={{ textDecoration: "none" }}>
           <div className="sidebar__link active_menu_link">
             <i className="fa fa-book" aria-hidden="true"></i>
-
             <a className="a-tag">Course Management</a>
           </div>
         </Link>

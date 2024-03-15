@@ -17,7 +17,7 @@ const AdminAssessment = () => {
   const [question1,setQuestion1]=useState(null)
   const handleEdit=(event,index)=>{
     setQuestion1(event);
-    setEditedIndex(index)
+    setEditedIndex(index);
     setEdit(true);
   }
   const saveEdit=async(questionId)=>{
@@ -591,7 +591,8 @@ const AdminAssessment = () => {
                 showQuestionsForm ? "show" : "hide"
               }`}
             >
-              <h2>{selectedAssessment ? "Edit Questions" : "Add Questions"}</h2>
+              <h2>
+                Add Questions</h2>
               <form
                 className="addquestionform"
                 onSubmit={handleAddQuestionSubmit}

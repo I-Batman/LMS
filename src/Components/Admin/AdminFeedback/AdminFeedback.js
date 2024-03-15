@@ -102,12 +102,19 @@ const AdminFeedback = () => {
     };
 
     try {
-      await axios.post(`${API_BASE_URL}/feedback`, feedbackData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
+      if(feedbackData.recipientUser.userid=="0"){
+        axios.post(`${API_BASE_URL}/feedback/send-to-all-users`,feedbackData,{
+          headers:{
+            "Content-Type":"application/json",
+          },
+        })
+      }else{
+        await axios.post(`${API_BASE_URL}/feedback`, feedbackData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
       setSelectedAdminUserId("");
       setSelectedCourseId("");
       newFeedbackForm({
@@ -229,6 +236,7 @@ const AdminFeedback = () => {
                       {admin.username} - {admin.userid}
                     </option>
                   ))}
+                  <option value="0">Select All</option>
                 </select>
                 <p id="h4">Select Course</p>
                 <select

@@ -215,9 +215,9 @@ body {
   padding: 20px;
   margin: 10px;
   text-align: left;
-  /* flex: auto; */
-  max-width: 270px;
-  /* border-radius: 13px; */
+  flex: auto;
+  max-width: 500px;
+  border-radius: 13px;
   background-color: whitesmoke;
   box-shadow: 0 5px 10px #999999;
 }
@@ -237,7 +237,6 @@ body {
   margin-bottom: 16px;
   box-sizing: border-box;
 }
-
 /* Style for submit button */
 /* Apply the styles to the buttons in your forms */
 
@@ -377,6 +376,8 @@ body {
   align-items: center;
   margin-bottom: 20px;
   height: auto;
+  /* width:50px; */
+  /* margin-left:80px; */
 }
 
 .access-user-form,
@@ -401,6 +402,7 @@ body {
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+  width:auto;
 }
 
 #success-edited-message,
@@ -408,18 +410,14 @@ body {
   text-align: center; /* Center the text within the messages */
 }
 
-
-
 /* Table Container */
-
-
 .admin-table-container h3 {
   
   padding-bottom:20px;
 }
 
 .admin-table-container table {
-  /* width: 100%; */
+  width: 100%;
   border-collapse: collapse;
   /* margin-top: 10px;   */
   box-shadow: 0 5px 10px #999999;
@@ -453,9 +451,10 @@ body {
 
 .admin-table-container td {
   padding: 1rem 2rem;
-
+  /* position: relative; */
   letter-spacing: 0.1rem;
   font-size: 1rem;
+  cursor:default;
 }
 
 .admin-table-container table::-webkit-scrollbar {
@@ -465,4 +464,171 @@ body {
 .admin-table-container tbody {
   scrollbar-width: none; /* Hide scrollbars for Firefox */
   -ms-overflow-style: none; /* Hide scrollbars for IE and Edge */
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 1000; /* Ensure it's above other content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-form #cancel-button{
+  padding: 4px;
+  bottom:470px;
+  margin-left:95%;
+  position:relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border:none;
+  cursor:pointer;
+}
+
+.admin-form #cancel-button:hover svg {
+  fill: black;
+}
+.admin-form #cancel-button svg {
+  fill: rgb(175, 175, 175);
+}
+
+.admin-form #cancel{
+  padding: 4px;
+  bottom:395px;
+  
+  margin-left:98%;
+  position:relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border:none;
+  cursor:pointer;
+}
+
+.admin-form #cancel:hover svg {
+  fill: black;
+}
+.admin-form #cancel svg {
+  fill: rgb(175, 175, 175);
+}
+
+.add-user-button {
+  border: none;
+  display: flex;
+  padding: 0.45rem 0.75rem;
+  background-color: #488aec;
+  color: #ffffff;
+  font-size: 0.75rem;
+  line-height: 0.5rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+  align-items: center;
+  border-radius: 0.25rem;
+  user-select: none;
+  gap: 0.5rem;
+  box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
+  transition: all .6s ease;
+  cursor:pointer;
+}
+
+.add-user-button:hover {
+  box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
+}
+
+.add-user-button:focus,.add-user-button:active {
+  opacity: .85;
+  box-shadow: none;
+}
+
+.add-user-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.delete-user-button{
+  width: 90%;
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: rgb(255, 114, 109);
+  color: white;
+  position:relative;
+  left:30px;
+  bottom:15px;
+}
+.delete-user-button:hover{
+  background-color: rgb(255, 73, 66);
+}
+
+.edit-user-button{
+  width: 90%;
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: rgb(111, 109, 255);
+  color: white;
+  position:relative;
+  right:30px;
+  top:15px;
+}
+.edit-user-button:hover{
+  background-color: rgb(111, 66, 255);
+}
+
+
+
+.access-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 30px; /* Adjusted width */
+  height: 17px; /* Adjusted height */
+}
+
+.access-toggle-label {
+  position: absolute;
+  margin-left:-15px;
+  top: 0;
+  /* right:5px; */
+  width: 40px; /* Adjusted width */
+  height: 17px; /* Adjusted height */
+  border-radius: 8px; /* Adjusted border-radius */
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color 0.4s ease;
+}
+
+.access-toggle-label:before {
+  content: "";
+  position: absolute;
+  top: 1px; /* Adjusted top position */
+  left: 1px; /* Adjusted left position */
+  width: 15px; /* Adjusted width */
+  height: 15px; /* Adjusted height */
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s ease;
+}
+
+.access-toggle-input:checked + .access-toggle-label {
+  background-color: #86d993;
+}
+
+.access-toggle-input:checked + .access-toggle-label:before {
+  transform: translateX(22px); /* Adjusted transform */
 }

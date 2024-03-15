@@ -9,12 +9,12 @@ const Sidebar = ({ sidebarOpen, closeSidebar, isAssessmentInProgress }) => {
   };
   return (
     <div
-      className={sidebarOpen ? "sidebar_responsive" : ""}
-      id="sidebar"
+      className={sidebarOpen ? "candidate-sidebar_responsive" : ""}
+      id="candidate-sidebar"
       style={sidebarStyle}
     >
-        <div><div className="sidebar__title">
-        <div className="sidebar__img">
+        <div><div className="candidate-sidebar__title">
+        <div className="candidate-sidebar__img">
           <img src={logo} alt="logo" />
           <h1>Learning Management System</h1>
         </div>
@@ -26,16 +26,16 @@ const Sidebar = ({ sidebarOpen, closeSidebar, isAssessmentInProgress }) => {
         ></i>
       </div>
 
-      <div className="sidebar__menu">
+      <div className="candidate-sidebar__menu">
         <Link to="/candidate-dashboard" style={{ textDecoration: "none" }}>
-          <div className="sidebar__link active_menu_link">
+          <div className="candidate-sidebar__link active_menu_link">
             <i className="fa fa-home"></i>
             <a className="a-tag">Dashboard</a>
           </div>
         </Link>
 
         <Link to="/course" style={{ textDecoration: "none" }}>
-          <div className="sidebar__link active_menu_link">
+          <div className="candidate-sidebar__link active_menu_link">
             <i className="fa fa-book" aria-hidden="true"></i>
 
             <a className="a-tag">Courses</a>
@@ -43,21 +43,21 @@ const Sidebar = ({ sidebarOpen, closeSidebar, isAssessmentInProgress }) => {
         </Link>
 
         <Link to="/assessment" style={{ textDecoration: "none" }}>
-          <div className="sidebar__link active_menu_link">
+          <div className="candidate-sidebar__link active_menu_link">
             <i className="fa fa-list" aria-hidden="true"></i>
             <a className="a-tag">Assessments</a>
           </div>
         </Link>
 
         <Link to="/feedback" style={{ textDecoration: "none" }}>
-          <div className="sidebar__link active_menu_link">
+          <div className="candidate-sidebar__link active_menu_link">
             <i className="fa fa-comments" aria-hidden="true"></i>
             <a className="a-tag">Feedbacks</a>
           </div>
         </Link>
 
         <Link to="/candidate-password" style={{ textDecoration: "none" }}>
-          <div className="sidebar__link active_menu_link">
+          <div className="candidate-sidebar__link active_menu_link">
             <i className="fa fa-unlock-alt" aria-hidden="true"></i>
             <a className="a-tag">Change Password</a>
           </div>

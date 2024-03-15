@@ -490,7 +490,7 @@ const CandidateAssessment = () => {
                   )}
 
                   <div className="assessment-questions">
-                    <h3>Assessment Questions:</h3>
+                    <h3>{selectedAssessment ? `${selectedAssessment.assessmentTitle} Questions:` : "Assessment Questions:"}</h3>
                     {assessmentQuestions.map((question, index) => (
                       <div key={question.questionId}>
                         <p className="question">
