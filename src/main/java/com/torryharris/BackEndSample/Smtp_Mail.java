@@ -75,5 +75,17 @@ public class Smtp_Mail {
 	            throw new RuntimeException("Unable to send the new password.");
 	        }
 	    }
+	 public void sendPasswordService(String email, String Password) {
+		 try {
+			 MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+	            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+	            mimeMessageHelper.setTo(email);
+	            mimeMessageHelper.setSubject("Your Login Credentials");
+	            mimeMessageHelper.setText("<p>Your login email is: " +email + "</p>"+"<p>Your password is: " + Password + "</p>", true);
+	            javaMailSender.send(mimeMessage);
+	        } catch (MessagingException e) {
+	            throw new RuntimeException("Unable to send the credentials.");
+	        }
+	 }
 }
  

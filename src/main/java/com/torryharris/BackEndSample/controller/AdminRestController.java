@@ -55,6 +55,11 @@ public class AdminRestController {
     public List<User> showAdminDashboard() {
         return userService.getAllUsers();
     }
+    
+    @GetMapping("/user-management")
+    public List<User> showUserManagement(){
+    	return userService.getAllUsers();
+    }
 
     @PostMapping("/add-user")
     public ResponseEntity<String> addUser(@RequestBody User user) {

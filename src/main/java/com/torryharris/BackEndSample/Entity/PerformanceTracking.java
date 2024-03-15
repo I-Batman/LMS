@@ -16,9 +16,6 @@ public class PerformanceTracking {
     @ManyToOne
     @JoinColumn(name = "course_id", referencedColumnName = "courseid")
     private Course course;
-
-    
-
     @ManyToOne
     @JoinColumn(name = "assessmentid", referencedColumnName = "assessmentid")
     private Assessment assessment;

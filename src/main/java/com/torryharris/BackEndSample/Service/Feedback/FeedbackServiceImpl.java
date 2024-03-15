@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.torryharris.BackEndSample.Entity.Feedback;
+import com.torryharris.BackEndSample.Entity.User;
 import com.torryharris.BackEndSample.Repository.FeedbackRepository;
+import com.torryharris.BackEndSample.Service.User.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -16,6 +18,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Autowired
     private FeedbackRepository feedbackRepository;
+    
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<Feedback> getAllFeedback() {
@@ -75,5 +80,28 @@ public class FeedbackServiceImpl implements FeedbackService {
     public List<Feedback> getFeedbacksByUserType(String userType) {
         return feedbackRepository.findByUserUsertype(userType);
     }
+    
+    @Override
+    public List<User> getAllUsers() {
+        // Implement the method to get all users from your UserRepository
+        return userService.getAllUsers();
+    }
 
+    @Override
+    public void sendFeedbackToAllUsers(Feedback feedback) {
+        List<User> allUsers = getAllUsers();
+        
+        List<Feedback> userFeedbacks = new ArrayList<>();
+        for (User user : allUsers) {
+            // Customize feedback for each user if needed
+            Feedback userFeedback = new Feedback();
+            userFeedback.setUser(feedback.getUser());
+            userFeedback.setCourse(feedback.getCourse());
+            userFeedback.setDateSubmitted(feedback.getDateSubmitted());
+            userFeedback.setFeedbackText(feedback.getFeedbackText());
+            userFeedback.setRecipientUser(user);
+            feedbackRepository.save(userFeedback);
+            userFeedbacks.add(userFeedback);
+        }  
+    }
 }

@@ -74,6 +74,9 @@ public class User {
 	public User() {
 		super();
 	}
+//	public String getByUserEmail() {
+//		return emailid;
+//	}
 	
 	
 }

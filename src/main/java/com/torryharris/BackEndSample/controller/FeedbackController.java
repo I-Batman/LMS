@@ -62,6 +62,13 @@ public class FeedbackController {
 
         return new ResponseEntity<>(feedbacks, HttpStatus.OK);
     }
+    
+    @PostMapping("/send-to-all-users")
+    public ResponseEntity<String> sendFeedbackToAllUsers(@RequestBody Feedback feedback) {
+        feedbackService.sendFeedbackToAllUsers(feedback);
+        return new ResponseEntity<>("Feedback sent to all users successfully", HttpStatus.OK);
+    }
+
 
 
 }

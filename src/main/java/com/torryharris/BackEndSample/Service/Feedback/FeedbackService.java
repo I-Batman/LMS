@@ -3,6 +3,7 @@ package com.torryharris.BackEndSample.Service.Feedback;
 import java.util.List;
 
 import com.torryharris.BackEndSample.Entity.Feedback;
+import com.torryharris.BackEndSample.Entity.User;
 
 public interface FeedbackService {
 
@@ -15,4 +16,7 @@ public interface FeedbackService {
 
     List<Feedback> getFeedbacksForAdmin();
     List<Feedback> getFeedbacksByUserType(String userType);
+    void sendFeedbackToAllUsers(Feedback feedback);
+    
+	List<User> getAllUsers();
 }

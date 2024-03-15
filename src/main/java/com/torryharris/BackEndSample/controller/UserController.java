@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.torryharris.BackEndSample.Smtp_Mail;
@@ -143,6 +144,39 @@ public class UserController {
             }
 
             return newPassword.toString();
+        }
+        
+        @PostMapping("/sendCredentials")
+        public ResponseEntity<String> sendCredentials(@RequestParam("userid") Integer userId) {
+            try {
+                User user = userService.getUserById(userId);
+                if (user == null) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+                }	
+                
+                smtpMail.sendPasswordService(user.getEmailid(), user.getPassword());
+
+                return ResponseEntity.ok("Credentials sent successfully to: " + user.getEmailid());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+            }
+        }
+
+        @PostMapping("/sendCredentialsToCandidates")
+        public ResponseEntity<String> sendCredentialsToCandidates() {
+            try {
+                List<User> candidateUsers = userService.getUsersByUserType("candidate");
+                
+                for (User user : candidateUsers) {
+                    smtpMail.sendPasswordService(user.getEmailid(), user.getPassword());
+                }
+
+                return ResponseEntity.ok("Credentials sent to all candidate users");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+            }
         }
     }
 

@@ -10,6 +10,7 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer feedbackId;
 
+    
 	public Feedback(User recipientUser) {
 		this.recipientUser = recipientUser;
 	}
@@ -91,10 +92,11 @@ public class Feedback {
 		this.dateSubmitted = dateSubmitted;
 	}
 
-	public Feedback(Integer feedbackId, User user, Course course, String feedbackText, LocalDate dateSubmitted) {
+	public Feedback(Integer feedbackId,User recipientUser, User user, Course course, String feedbackText, LocalDate dateSubmitted) {
 		super();
 		this.feedbackId = feedbackId;
 		this.user = user;
+		this.recipientUser = recipientUser;
 		this.course = course;
 		this.feedbackText = feedbackText;
 		this.dateSubmitted = dateSubmitted;
