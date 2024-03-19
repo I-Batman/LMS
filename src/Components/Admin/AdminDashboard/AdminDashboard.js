@@ -38,7 +38,31 @@ const Dashboard = () => {
     (user) => user.usertype === "admin"
   );
   
-  
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [sendCredentialsVisible, setSendCredentialsVisible] = useState(false);
+  const handleCloseModal = () => {
+    setSendCredentialsVisible(false);
+  };
+
+  const handleSendCredentials = async () => {
+    if (!selectedUserId) {
+      alert("Please select a user to send credentials.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}/user/sendCredentials`, {
+        userId: selectedUserId,
+      });
+      alert(response.data); // Display success message
+      setSendCredentialsVisible(false); // Close the modal after sending credentials
+    } catch (error) {
+      console.error("Error sending credentials:", error);
+      alert("Error sending credentials. Please try again.");
+      setSendCredentialsVisible(false); // Display error message
+    }
+  };
+
   const validatePasswordConstraints = (password) => {
 
   if (password.length < 8) {
@@ -134,63 +158,6 @@ const Dashboard = () => {
   const onAccessInputChange = (e) => {
     setAccessUser({ ...accessUser, [e.target.name]: e.target.value });
   };
-
-  const [successAccessMessage, setSuccessAccessMessage] = useState("");
-  const [errorAccessMessage, setErrorAccessMessage] = useState("");
-
-  const onSubmitAccess = async (e, action) => {
-    e.preventDefault();
-    const confirmAction = window.confirm(`Are you sure you want to ${action} this user?`);
-    if (!confirmAction) {
-      return; // Do nothing if the user cancels
-    }
-    try {
-      const response = await axios.post(
-        `${API_BASE_URL}/admin/${action}-user`,
-        accessUser
-      );
-
-      if (response.status === 200) {
-        setSuccessAccessMessage(response.data);
-        setErrorAccessMessage(""); // Clear any previous error message
-        setAccessUser(prevState => ({ ...prevState, userid: "" }));
-        loadUsers();
-      } else if (response.status === 404) {
-        setErrorAccessMessage(response.data);
-        setSuccessAccessMessage(""); // Clear any previous success message
-      } else {
-        setErrorAccessMessage(
-          response.data ||
-            `An unexpected error occurred. Please try again later.`
-        );
-        setSuccessAccessMessage(""); // Clear any previous success message
-      }
-      setTimeout(() => {
-        setSuccessAccessMessage("");
-        setErrorAccessMessage("");
-        loadUsers();
-      }, 3000);
-    } catch (axiosError) {
-      console.error("Error from axios:", axiosError);
-
-      if (axiosError.response && axiosError.response.status === 400) {
-        setErrorAccessMessage(axiosError.response.data);
-      } else if (axiosError.response && axiosError.response.status === 404) {
-        setErrorAccessMessage(axiosError.response.data);
-      } else {
-        setErrorAccessMessage(
-          `An error occurred while ${action} the user. Please check your internet connection and try again.`
-        );
-      }
-      setSuccessAccessMessage(""); // Clear any previous success message
-      setTimeout(() => {
-        setSuccessAccessMessage("");
-        setErrorAccessMessage("");
-        loadUsers();
-      }, 3000);
-    }
-  };
-
   const [editUserFormVisible, setEditUserFormVisible]= useState(false);
   const toggleEditUserFormVisibility=() =>{
     setEditUserFormVisible(!editUserFormVisible);
@@ -484,11 +451,27 @@ const Dashboard = () => {
 
             <div className=" admin-table-container">
               <h3>User Details</h3>
-              <button className="add-user-button" onClick={toggleAddUserFormVisibility}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-              </svg>
-              Add User</button>
+              <div className="button-container">              
+                <button className="add-user-button" onClick={toggleAddUserFormVisibility}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                  </svg>
+                  Add User</button>            
+                <button className="send-user-button" onClick={() => setSendCredentialsVisible(true)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="2 0 24 24"
+                  width="24"
+                  height="20"
+                >
+                  <path fill="none" d="M0 0h24v24H0z"></path>
+                  <path
+                    fill="currentColor"
+                    d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+                  ></path>
+                </svg>
+                  Send Credentials</button>
+                </div>
               <table>
                 <thead>
                   <tr>
@@ -534,7 +517,29 @@ const Dashboard = () => {
                         <div>                        
                           <button className="delete-user-button" onClick={()=> onDeleteUser(user.userid)}>Delete</button>
                         </div>
-                      </td>              
+                      </td>
+                      {/* <td>  
+                          <div className="button">
+                          <button type="submit" className="send-user-button">
+                            <div class="svg-wrapper-1">
+                              <div class="svg-wrapper">
+                                <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="2 0 24 24"
+                                width="24"
+                                height="20"
+                                >
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path
+                                  fill="currentColor"
+                                  d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"
+                                ></path>
+                                </svg>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                      </td>               */}
                     </tr>
                   ))}
                 </tbody>
@@ -706,6 +711,37 @@ const Dashboard = () => {
                 </div>
               )
             }
+            {sendCredentialsVisible && (
+              <div className="overlay">
+              <div className="send-credentials-modal">
+                <h3>Send Credentials</h3>
+                <div>
+                  <label htmlFor="userSelect">Select User:</label>
+                  <select
+                    id="userSelect"
+                    value={selectedUserId}
+                    onChange={(e) => setSelectedUserId(e.target.value)}
+                  >
+                    <option value="">Select User</option>
+                    {users.map((user) => (
+                      <option key={user.userid} value={user.userid}>
+                        {user.username}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button onClick={handleSendCredentials}>Send</button>
+                <button id="cancel" type="button" onClick={handleCloseModal}>
+                <svg height="20px" viewBox="0 0 384 512">
+                      <path
+                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+                      ></path>
+                    </svg>
+                </button>
+              </div>
+            </div>  
+            )}
+
           </div>
         </div>
       </div>

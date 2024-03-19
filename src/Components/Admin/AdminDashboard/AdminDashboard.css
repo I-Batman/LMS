@@ -416,6 +416,8 @@ body {
   padding-bottom:20px;
 }
 
+
+
 .admin-table-container table {
   width: 100%;
   border-collapse: collapse;
@@ -438,6 +440,7 @@ body {
 .admin-table-container tbody {
   height: 200px; /* Reserve space for the 5 fixed rows */
   overflow-y: scroll; /* Enable scrolling within tbody */
+  overflow-x: scroll;
 }
 
 .admin-table-container th {
@@ -556,6 +559,44 @@ body {
   height: 1.25rem;
 }
 
+.send-user-button {
+  border: none;
+  display: flex;
+  padding: 0.45rem 0.75rem;
+  background-color: #488aec;
+  color: #ffffff;
+  font-size: 0.75rem;
+  line-height: 0.5rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+  align-items: center;
+  border-radius: 0.25rem;
+  user-select: none;
+  gap: 0.5rem;
+  box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
+  transition: all .6s ease;
+  cursor:pointer;
+}
+
+.send-user-button:hover {
+  box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
+}
+
+.send-user-button:focus,.send-user-button:active {
+  opacity: .85;
+  box-shadow: none;
+}
+
+.send-user-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.button-container {
+  display: flex; /* Display buttons in a row */
+  gap: 745px; /* Add some spacing between buttons */
+}
 .delete-user-button{
   width: 90%;
   height: 30px;
@@ -590,7 +631,123 @@ body {
   background-color: rgb(111, 66, 255);
 }
 
+/* .send-credentials-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}
 
+.send-credentials-card h3 {
+  margin-bottom: 10px;
+}
+
+.send-credentials-card div {
+  margin-bottom: 20px;
+}
+
+.send-credentials-card label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.send-credentials-card select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.send-credentials-card button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.send-credentials-card button:hover {
+  background-color: #0056b3;
+} */
+.send-credentials-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: whitesmoke;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width:300px;
+}
+
+.send-credentials-modal h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.send-credentials-modal select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top:10px;
+}
+
+.send-credentials-modal button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.send-credentials-modal button:hover {
+  background-color: #0056b3;
+}
+
+.send-credentials-modal #cancel-button{
+  padding: 4px;
+  bottom:400px;
+  margin-left:95%;
+  position:relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border:none;
+  cursor:pointer;
+}
+
+.send-credentials-modal #cancel-button:hover svg {
+  fill: black;
+}
+.send-credentials-modal #cancel-button svg {
+  fill: rgb(175, 175, 175);
+}
+
+.send-credentials-modal #cancel{
+  padding: 4px;
+  bottom:160px;
+  margin-left:95%;
+  position:relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border:none;
+  cursor:pointer;
+}
+
+.send-credentials-modal #cancel:hover svg {
+  fill: black;
+}
+.send-credentials-modal #cancel svg {
+  fill: rgb(175, 175, 175);
+}
 
 .access-toggle-switch {
   position: relative;
