@@ -147,8 +147,10 @@ public class UserController {
         }
         
         @PostMapping("/sendCredentials")
-        public ResponseEntity<String> sendCredentials(@RequestParam("userid") Integer userId) {
+        public ResponseEntity<String> sendCredentials(@RequestBody Map<String, Integer> requestData) {
+        	
             try {
+            	Integer userId = requestData.get("userId");
                 User user = userService.getUserById(userId);
                 if (user == null) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");

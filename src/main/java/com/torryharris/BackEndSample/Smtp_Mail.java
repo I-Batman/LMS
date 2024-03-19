@@ -75,17 +75,36 @@ public class Smtp_Mail {
 	            throw new RuntimeException("Unable to send the new password.");
 	        }
 	    }
-	 public void sendPasswordService(String email, String Password) {
-		 try {
-			 MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-	            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-	            mimeMessageHelper.setTo(email);
-	            mimeMessageHelper.setSubject("Your Login Credentials");
-	            mimeMessageHelper.setText("<p>Your login email is: " +email + "</p>"+"<p>Your password is: " + Password + "</p>", true);
-	            javaMailSender.send(mimeMessage);
-	        } catch (MessagingException e) {
-	            throw new RuntimeException("Unable to send the credentials.");
-	        }
-	 }
+	 public void sendPasswordService(String email, String password) {
+		    try {
+		        // Construct email content with styles
+		        String subject = "Your Login Credentials";
+		        String message = String.format(
+		                "<html><head><style>"
+		                + "body {font-family: Arial, sans-serif;}"
+		                + ".content {font-size: 16px;}"
+		                + "</style></head><body>"
+		                + "<div class=\"content\">"
+		                + "<p>Your login email is: <strong>%s</strong></p>"
+		                + "<p>Your password is: <strong>%s</strong></p>"
+	                    + "<p>Please log in to your account using these credentials.</p>"
+	                    + "<p>For security reasons, we recommend you to change your password after logging in.</p>"
+		                + "</div>"
+	                    + "<div class=\"footer warning\">THIS EMAIL IS JUST FOR TESTING PURPOSE OF TALENTRACK, your skill matrix system. PLEASE IGNORE THIS EMAIL</div>"
+		                + "</body></html>",
+		                email, password);
+
+		        // Send email
+		        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+		        mimeMessageHelper.setTo(email);
+		        mimeMessageHelper.setSubject(subject);
+		        mimeMessageHelper.setText(message, true); // Enable HTML content
+		        javaMailSender.send(mimeMessage);
+		    } catch (MessagingException e) {
+		        throw new RuntimeException("Unable to send the credentials.");
+		    }
+		}
+
 }
  
